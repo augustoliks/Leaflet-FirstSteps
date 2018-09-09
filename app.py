@@ -6,7 +6,7 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 thread = None
-
+  
 def background_thread():
     time_wait = 3
     test = 0
@@ -42,4 +42,4 @@ def test_disconnect():
 
 if __name__ == '__main__':
 
-    socketio.run(app, debug=False, host='0.0.0.0')
+    socketio.run(app, debug=True, host='0.0.0.0')
