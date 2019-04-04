@@ -20,80 +20,14 @@
     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
         crossorigin=""></script>
 
-
-
 </head>
 
 <body>
-
-
     <div id="mapid" style="width: 1000px; height: 1000px;"></div>
-    <script>
-
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
-        var mymap = L.map('mapid').setView([-23.162139, -45.795291], 3);
-        var plots = [];
-
-        L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(mymap);
-
-        var myIcon1 = L.icon({
-            iconUrl: 'static/images/marker-blue.png',
-            iconSize: [50, 50],
-            iconAnchor: [50, 50],
-            popupAnchor: [-25, -50],
-        });
-
-        var myIcon2 = L.icon({
-            iconUrl: 'static/images/marker-red.png',
-            iconSize: [50, 50],
-            iconAnchor: [50, 50],
-            popupAnchor: [-25, -50],
-        });
-
-        for (var k = 0; k < 10; k += 1) {
-            plots.push(
-                L.marker([-23.162139 + k * 3, -45.795291 + k * 3], { icon: myIcon1 }).addTo(mymap)
-            )
-        }
-
-
-        plots.forEach(function(plot){
-            plot.bindPopup("x");
-        })
-
-        function onMapClick(e) {
-            popup
-                .setLatLng(e.latlng)
-                .setContent("You clicked the map at " + e.latlng.toString())
-                .openOn(mymap);
-        }
-
-        socket.on('connect', function (x) {
-            console.log("Ola Carlos")
-        })
-
-        socket.on('message', function (test) {
-            console.log('Ouve aki ' + test);
-            if (test == 0) {
-                plots.forEach(function (plot) {
-                    plot.setIcon(myIcon1);
-                    plot._popup.setContent('test')                    
-
-                })
-            }
-            else {
-                plots.forEach(function (plot) {
-                    plot.setIcon(myIcon2);
-                    plot._popup.setContent('testo')                    
-
-                })
-            }
-        })
-
-    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='initialize_map.js') }}"></script>   
+    <script type="text/javascript" src="{{ url_for('static', filename='points.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='do_plot.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='socket_connect.js') }}"></script>    
+    <script type="text/javascript" src="{{ url_for('static', filename='socket_message.js') }}"></script>
 </body>
 </html>
